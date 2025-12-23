@@ -44,18 +44,23 @@ btn.addEventListener('click', startCounter);
 function startCounter(event) {
   if (!userSelection) return;
   btn.disabled = true;
+  input.disabled = true;
 
   intervalId = setInterval(() => {
     const now = new Date();
     const different = userSelection - now;
     if (different < 0) {
       clearInterval(intervalId);
-      addleadingZero(0, 0, 0, 0);
+      addLeadingZero(0, 0, 0, 0);
+      btn.disabled = true;
+      input.disabled = false;
+      userSelection = null;
+
       return;
     }
 
     const { days, hours, minutes, seconds } = convertMs(different);
-    addleadingZero(days, hours, minutes, seconds);
+    addLeadingZero(days, hours, minutes, seconds);
   }, 1000);
 }
 
@@ -76,7 +81,7 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-function addleadingZero(days, hours, minutes, seconds) {
+function addLeadingZero(days, hours, minutes, seconds) {
   daysEl.textContent = String(days).padStart('2', 0);
   hoursEl.textContent = String(hours).padStart('2', 0);
   minutesEl.textContent = String(minutes).padStart('2', 0);
